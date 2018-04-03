@@ -36,6 +36,8 @@ public class HellTemple1 extends WorldGenerator {
 
 	int r;
 
+	int sub_levels = 3;
+
 	@Override
 	public boolean generate(World world, Random rand, BlockPos position) {
 		WorldServer worldserver = (WorldServer) world;
@@ -48,8 +50,8 @@ public class HellTemple1 extends WorldGenerator {
 			System.out.println("NO STRUCTURE");
 			return false;
 		}
-
-		if (true) {
+		position = position.add(0, -sub_levels, 0);
+		if (ModWorldGenerator.canSpawnHere(template, worldserver, position, sub_levels)) {
 			IBlockState iblockstate = world.getBlockState(position);
 			world.notifyBlockUpdate(position, iblockstate, iblockstate, 3);
 

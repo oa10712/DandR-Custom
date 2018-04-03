@@ -49,9 +49,9 @@ public class ModWorldGenerator extends WorldGenerator implements IWorldGenerator
 	}
 
 	private void generateOverworld(World world, Random rand, int blockX, int blockZ) {
-		if (Math.random() * 10000 <= 1000) {
+		if (Math.random() * 10000 <= 5) {
 			int y = getGroundFromAbove(world, blockX, blockZ);
-			BlockPos pos = new BlockPos(blockX, y-3, blockZ);
+			BlockPos pos = new BlockPos(blockX, y, blockZ);
 			WorldGenerator structure = new HellTemple1();
 			structure.generate(world, rand, pos);
 		}
@@ -68,32 +68,31 @@ public class ModWorldGenerator extends WorldGenerator implements IWorldGenerator
 		boolean foundGround = false;
 		while (!foundGround && y-- >= 31) {
 			Block blockAt = world.getBlockState(new BlockPos(x, y, z)).getBlock();
-			foundGround = blockAt == Blocks.WATER || blockAt == Blocks.FLOWING_WATER || blockAt == Blocks.GRASS
-					|| blockAt == Blocks.SAND || blockAt == Blocks.SNOW || blockAt == Blocks.SNOW_LAYER
-					|| blockAt == Blocks.GLASS || blockAt == Blocks.MYCELIUM;
+			foundGround = blockAt == Blocks.GRASS || blockAt == Blocks.SAND || blockAt == Blocks.SNOW
+					|| blockAt == Blocks.SNOW_LAYER || blockAt == Blocks.GLASS || blockAt == Blocks.MYCELIUM;
 		}
 
 		return y;
 	}
 
-	public static boolean canSpawnHere(Template template, World world, BlockPos posAboveGround) {
+	public static boolean canSpawnHere(Template template, World world, BlockPos posAboveGround, int sub_levels) {
 		int zwidth = template.getSize().getZ();
 		int xwidth = template.getSize().getX();
 
 		// check all the corners to see which ones are replaceable
-		boolean corner1 = isCornerValid(world, posAboveGround);
-		boolean corner2 = isCornerValid(world, posAboveGround.add(xwidth, 0, zwidth));
+		boolean corner1 = isCornerValid(world, posAboveGround, sub_levels);
+		boolean corner2 = isCornerValid(world, posAboveGround.add(xwidth, 0, zwidth), sub_levels);
 
 		// if Y > 20 and all corners pass the test, it's okay to spawn the
 		// structure
 		return posAboveGround.getY() > 31 && corner1 && corner2;
 	}
 
-	public static boolean isCornerValid(World world, BlockPos pos) {
+	public static boolean isCornerValid(World world, BlockPos pos, int sub_levels) {
 		int variation = 3;
 		int highestBlock = getGroundFromAbove(world, pos.getX(), pos.getZ());
 
-		if (highestBlock > pos.getY() - variation && highestBlock < pos.getY() + variation)
+		if (highestBlock > pos.getY() - variation + sub_levels && highestBlock < pos.getY() + variation + sub_levels)
 			return true;
 
 		return false;
