@@ -55,6 +55,12 @@ public class ModWorldGenerator extends WorldGenerator implements IWorldGenerator
 			WorldGenerator structure = new HellTemple1();
 			structure.generate(world, rand, pos);
 		}
+		if (true) {
+			int y = getGroundFromAbove(world, blockX, blockZ);
+			BlockPos pos = new BlockPos(blockX, y, blockZ);
+			WorldGenerator structure = new Greenhouse();
+			structure.generate(world, rand, pos);
+		}
 	}
 
 	private void generateNether(World world, Random rand, int chunkX, int chunkZ) {

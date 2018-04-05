@@ -1,0 +1,19 @@
+{
+  "pattern": [
+    "ooo",
+    "oMo",
+    "ooo"
+  ],
+  "nbt": "vein_mine",
+  "tooltip": "§3Vein Mining§r",
+  "type": "dandrcustom:addNBT",
+  "key": {
+    "o": {
+      "item": "minecraft:iron_ore"
+    },
+    "M": {
+	  "type": "dandrcustom:tool_dict",
+      "tool": "pickaxe"
+    }
+  }
+}
